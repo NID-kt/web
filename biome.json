@@ -1,0 +1,42 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.7.2/schema.json",
+	"files": {
+	  "ignore": ["**/package.json", "**/pnpm-lock.yaml"]
+	},
+	"vcs": {
+	  "enabled": true,
+	  "clientKind": "git",
+	  "useIgnoreFile": true
+	},
+	"organizeImports": {
+	  "enabled": true
+	},
+	"linter": {
+	  "enabled": true,
+	  "rules": {
+		"recommended": true
+	  }
+	},
+	"formatter": {
+	  "enabled": true,
+	  "formatWithErrors": false,
+	  "indentStyle": "space",
+	  "indentWidth": 2,
+	  "lineEnding": "lf",
+	  "attributePosition": "auto"
+	},
+	"javascript": {
+	  "formatter": {
+		"jsxQuoteStyle": "single",
+		"quoteProperties": "asNeeded",
+		"trailingComma": "all",
+		"semicolons": "always",
+		"arrowParentheses": "always",
+		"bracketSpacing": true,
+		"bracketSameLine": false,
+		"quoteStyle": "single",
+		"attributePosition": "auto"
+	  }
+	}
+  }
+  
