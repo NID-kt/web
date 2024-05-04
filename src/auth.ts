@@ -42,6 +42,24 @@ const sendAuditLog = (method: string, message: object, user: User) => {
 
 export const config: NextAuthConfig = {
   adapter: PostgresAdapter(pool),
+  callbacks: {
+    signIn: async ({ account, user }) => {
+      const response = await fetch(
+        `https://discordapp.com/api/users/@me/guilds?after=${process.env.DISCORD_GUILD_ID_PREV}&limit=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${account?.access_token}`,
+          },
+        },
+      );
+      const json = (await response.json()) as { id: string }[];
+      user.isJoinedGuild = json.some(
+        (guild) => guild.id === process.env.DISCORD_GUILD_ID,
+      );
+
+      return true;
+    },
+  },
   events: {
     signIn: async (params) => {
       // biome-ignore lint:noNonNullAssertion - To avoid sending sensitive data
