@@ -5,5 +5,6 @@ declare module 'next-auth' {
     isJoinedGuild?: boolean;
     isJoinedOrganization?: boolean;
     githubUserID?: number;
+    githubUserName?: string;
   }
 }
