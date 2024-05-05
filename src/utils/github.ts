@@ -11,7 +11,7 @@ export const isJoinedOrganization = async (
   username: string,
 ) => {
   const response = await fetch(
-    `https://api.github.com/orgs/NID-roid/members${username}`,
+    `https://api.github.com/orgs/NID-roid/members/${username}`,
     {
       headers: createGitHubApiHeaders(accessToken),
     },
