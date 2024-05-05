@@ -5,6 +5,8 @@ import Discord from 'next-auth/providers/discord';
 import GitHub from 'next-auth/providers/github';
 import { Pool } from 'pg';
 
+import { isJoinedGuild } from './utils/discord';
+
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,
   user: process.env.POSTGRES_USER,
@@ -44,19 +46,8 @@ export const config: NextAuthConfig = {
   adapter: PostgresAdapter(pool),
   callbacks: {
     signIn: async ({ account, user }) => {
-      if (account?.provider === 'discord') {
-        const response = await fetch(
-          `https://discordapp.com/api/users/@me/guilds?after=${process.env.DISCORD_GUILD_ID_PREV}&limit=1`,
-          {
-            headers: {
-              Authorization: `Bearer ${account.access_token}`,
-            },
-          },
-        );
-        const json = (await response.json()) as { id: string }[];
-        user.isJoinedGuild = json.some(
-          (guild) => guild.id === process.env.DISCORD_GUILD_ID,
-        );
+      if (account?.provider === 'discord' && account.access_token) {
+        user.isJoinedGuild = await isJoinedGuild(account.access_token);
       }
       return true;
     },
