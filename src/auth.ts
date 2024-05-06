@@ -44,14 +44,6 @@ const sendAuditLog = (method: string, message: object, user: User) => {
 
 export const config: NextAuthConfig = {
   adapter: PostgresAdapter(pool),
-  callbacks: {
-    signIn: async ({ account, user }) => {
-      if (account?.provider === 'discord' && account.access_token) {
-        user.isJoinedGuild = await isJoinedGuild(account.access_token);
-      }
-      return true;
-    },
-  },
   events: {
     signIn: async (params) => {
       // biome-ignore lint:noNonNullAssertion - To avoid sending sensitive data
@@ -74,6 +66,16 @@ export const config: NextAuthConfig = {
     Discord({
       authorization:
         'https://discord.com/oauth2/authorize?scope=identify+guilds',
+      profile: async (profile, token) => {
+        const user = {
+          ...(await Discord({}).profile?.(profile, token)),
+          discordUserID: profile.id,
+        };
+        if (token?.access_token) {
+          user.isJoinedGuild = await isJoinedGuild(token.access_token);
+        }
+        return user;
+      },
     }),
     GitHub,
   ],
