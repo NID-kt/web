@@ -6,6 +6,7 @@ import GitHub from 'next-auth/providers/github';
 import { Pool } from 'pg';
 
 import { isJoinedGuild } from './utils/discord';
+import { isJoinedOrganization } from './utils/github';
 
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,
@@ -77,7 +78,23 @@ export const config: NextAuthConfig = {
         return user;
       },
     }),
-    GitHub,
+    GitHub({
+      profile: async (profile, token) => {
+        const user = {
+          ...(await GitHub({}).profile?.(profile, token)),
+          githubUserID: profile.id,
+          githubUserName: profile.login,
+        };
+        if (user.githubUserName) {
+          user.isJoinedOrganization = await isJoinedOrganization(
+            // biome-ignore lint:noNonNullAssertion - We know this is defined
+            process.env.GITHUB_ACCESS_TOKEN!,
+            user.githubUserName,
+          );
+        }
+        return user;
+      },
+    }),
   ],
 };
 
