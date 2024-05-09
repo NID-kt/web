@@ -12,9 +12,8 @@ export function mapExpiresAt(account: any): AdapterAccount {
 }
 
 export default function PostgresAdapter(client: Pool): Adapter {
-  const originalAdapter = OriginalPostgresAdapter(client);
-
   return {
+    ...OriginalPostgresAdapter(client),
     async createUser(user) {
       const {
         name,
