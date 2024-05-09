@@ -1,10 +1,10 @@
-import PostgresAdapter from '@auth/pg-adapter';
 import NextAuth from 'next-auth';
 import type { NextAuthConfig, User } from 'next-auth';
 import Discord from 'next-auth/providers/discord';
 import GitHub from 'next-auth/providers/github';
 import { Pool } from 'pg';
 
+import PostgresAdapter from '@/db/adapter-pg';
 import { isJoinedGuild } from '@/utils/discord';
 import { isJoinedOrganization } from '@/utils/github';
 
@@ -43,8 +43,10 @@ const sendAuditLog = (method: string, message: object, user: User) => {
   });
 };
 
+const adapter = PostgresAdapter(pool);
+
 export const config: NextAuthConfig = {
-  adapter: PostgresAdapter(pool),
+  adapter: adapter,
   events: {
     signIn: async (params) => {
       // biome-ignore lint:noNonNullAssertion - To avoid sending sensitive data
