@@ -60,9 +60,27 @@ export const config: NextAuthConfig = {
       await sendAuditLog('updateUser', params, params.user);
     },
     linkAccount: async (params) => {
+      const user = params.user;
+      if ('emailVerified' in user && adapter.updateUser) {
+        const {
+          isJoinedGuild,
+          isJoinedOrganization,
+          githubUserID,
+          githubUserName,
+        } = params.profile;
+
+        await adapter.updateUser({
+          ...user,
+          isJoinedGuild: user.isJoinedGuild ?? isJoinedGuild,
+          isJoinedOrganization:
+            user.isJoinedOrganization ?? isJoinedOrganization,
+          githubUserID: user.githubUserID ?? githubUserID,
+          githubUserName: user.githubUserName ?? githubUserName,
+        });
+      }
       // biome-ignore lint:noNonNullAssertion - To avoid sending sensitive data
       params.account = undefined!;
-      await sendAuditLog('linkAccount', params, params.user);
+      await sendAuditLog('linkAccount', params, user);
     },
   },
   providers: [
