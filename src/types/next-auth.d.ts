@@ -6,5 +6,6 @@ declare module 'next-auth' {
     isJoinedOrganization?: boolean;
     githubUserID?: number;
     githubUserName?: string;
+    discordUserID?: string;
   }
 }
