@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import type { NextAuthConfig, User } from 'next-auth';
-import Discord from 'next-auth/providers/discord';
+import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub from 'next-auth/providers/github';
 import { Pool } from 'pg';
 
@@ -47,6 +47,11 @@ const adapter = PostgresAdapter(pool);
 
 export const config: NextAuthConfig = {
   adapter: adapter,
+  callbacks: {
+    async signIn({ user }) {
+      return !!user.discordUserID;
+    },
+  },
   events: {
     signIn: async (params) => {
       // biome-ignore lint:noNonNullAssertion - To avoid sending sensitive data
@@ -84,7 +89,7 @@ export const config: NextAuthConfig = {
     },
   },
   providers: [
-    Discord({
+    Discord<DiscordProfile>({
       authorization:
         'https://discord.com/oauth2/authorize?scope=identify+guilds',
       profile: async (profile, token) => {
