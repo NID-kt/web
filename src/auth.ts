@@ -5,7 +5,7 @@ import GitHub from 'next-auth/providers/github';
 import { Pool } from 'pg';
 
 import PostgresAdapter from '@/db/adapter-pg';
-import { isJoinedGuild } from '@/utils/discord';
+import { isJoinedGuild, sendDirectMessage } from '@/utils/discord';
 import { isJoinedOrganization } from '@/utils/github';
 
 const pool = new Pool({
@@ -48,8 +48,15 @@ const adapter = PostgresAdapter(pool);
 export const config: NextAuthConfig = {
   adapter: adapter,
   callbacks: {
-    async signIn({ user }) {
-      return !!user.discordUserID;
+    async signIn({ user, account }) {
+      if (user.discordUserID) {
+        await sendDirectMessage({
+          userID: user.discordUserID,
+          message: `[NID.kt](https://discord.gg/nid-kt) の Web サイトへようこそ！✨🙌🏻\n\`${account?.provider}\` でログインしました ✅`,
+        });
+        return true;
+      }
+      return false;
     },
   },
   events: {
