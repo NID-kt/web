@@ -24,6 +24,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
         isJoinedOrganization,
         githubUserID,
         githubUserName,
+        discordUserID,
       } = user;
       const sql = `
           INSERT INTO users
@@ -35,9 +36,10 @@ export default function PostgresAdapter(client: Pool): Adapter {
             "isJoinedGuild",
             "isJoinedOrganization",
             "githubUserID",
-            "githubUserName"
+            "githubUserName",
+            "discordUserID"
           ) 
-          VALUES ($1, $2, $3, $4 , $5, $6, $7, $8) 
+          VALUES ($1, $2, $3, $4 , $5, $6, $7, $8, $9) 
           RETURNING
             id,
             name,
@@ -47,7 +49,8 @@ export default function PostgresAdapter(client: Pool): Adapter {
             "isJoinedGuild",
             "isJoinedOrganization",
             "githubUserID",
-            "githubUserName"
+            "githubUserName",
+            "discordUserID"
         `;
       const result = await client.query(sql, [
         name,
@@ -58,6 +61,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
         isJoinedOrganization,
         githubUserID,
         githubUserName,
+        discordUserID,
       ]);
       return result.rows[0];
     },
@@ -81,6 +85,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
         isJoinedOrganization,
         githubUserID,
         githubUserName,
+        discordUserID,
       } = newUser;
 
       const updateSql = `
@@ -92,7 +97,8 @@ export default function PostgresAdapter(client: Pool): Adapter {
             "isJoinedGuild" = $6,
             "isJoinedOrganization" = $7,
             "githubUserID" = $8,
-            "githubUserName" = $9
+            "githubUserName" = $9,
+            "discordUserID" = $10
           where id = $1
           RETURNING
             name,
@@ -103,7 +109,8 @@ export default function PostgresAdapter(client: Pool): Adapter {
             "isJoinedGuild",
             "isJoinedOrganization",
             "githubUserID",
-            "githubUserName"
+            "githubUserName",
+            "discordUserID"
         `;
       const query2 = await client.query(updateSql, [
         id,
@@ -115,6 +122,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
         isJoinedOrganization,
         githubUserID,
         githubUserName,
+        discordUserID,
       ]);
       return query2.rows[0];
     },
