@@ -30,13 +30,13 @@ devDependencies:
     version: 1.7.3
   '@types/node':
     specifier: ^20
-    version: 20.12.11
+    version: 20.12.12
   '@types/pg':
     specifier: ^8.11.6
     version: 8.11.6
   '@types/react':
     specifier: ^18
-    version: 18.3.1
+    version: 18.3.2
   '@types/react-dom':
     specifier: ^18
     version: 18.3.0
@@ -349,8 +349,8 @@ packages:
   /@types/cookie@0.6.0:
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
-  /@types/node@20.12.11:
-    resolution: {integrity: sha512-vDg9PZ/zi+Nqp6boSOT7plNuthRugEKixDv5sFTIpkE89MmNtEArAShI4mxuX2+UrLEe9pxC1vm2cjm9YlWbJw==}
+  /@types/node@20.12.12:
+    resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -358,7 +358,7 @@ packages:
   /@types/pg@8.11.6:
     resolution: {integrity: sha512-/2WmmBXHLsfRqzfHW7BNZ8SbYzE8OSk7i3WjFYvfgRHj7S1xj+16Je5fUKv3lVdVzk/zn9TXOqf+avFCFIE0yQ==}
     dependencies:
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       pg-protocol: 1.6.1
       pg-types: 4.0.2
     dev: true
@@ -370,11 +370,11 @@ packages:
   /@types/react-dom@18.3.0:
     resolution: {integrity: sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==}
     dependencies:
-      '@types/react': 18.3.1
+      '@types/react': 18.3.2
     dev: true
 
-  /@types/react@18.3.1:
-    resolution: {integrity: sha512-V0kuGBX3+prX+DQ/7r2qsv1NsdfnCLnTgnRJ1pYnxykBhGMz+qj+box5lq7XsO5mtZsBqpjwwTu/7wszPfMBcw==}
+  /@types/react@18.3.2:
+    resolution: {integrity: sha512-Btgg89dAnqD4vV7R3hlwOxgqobUQKgx3MmrQRi0yYbs/P0ym8XozIAlkqVilPqHQwXs4e9Tf63rrCgl58BcO4w==}
     dependencies:
       '@types/prop-types': 15.7.12
       csstype: 3.1.3
