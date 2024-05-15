@@ -133,6 +133,7 @@ export const config = (request: NextRequest | undefined): NextAuthConfig => {
         },
       }),
     ],
+    theme: { logo: '/icon.png' },
   };
 };
 
