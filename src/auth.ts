@@ -24,8 +24,6 @@ const getUser = async ({
   request,
   adapter,
 }: { request: NextRequest | undefined; adapter: Adapter }) => {
-  console.log('getUser');
-  console.log({ request });
   if (!request) {
     return undefined;
   }
