@@ -1,5 +1,4 @@
-import NextAuth from 'next-auth';
-import type { NextAuthConfig, User } from 'next-auth';
+import NextAuth, { type NextAuthConfig } from 'next-auth';
 import type { Adapter } from 'next-auth/adapters';
 import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub from 'next-auth/providers/github';
