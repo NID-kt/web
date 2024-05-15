@@ -1,5 +1,4 @@
-import NextAuth from 'next-auth';
-import type { NextAuthConfig, User } from 'next-auth';
+import NextAuth, { type NextAuthConfig } from 'next-auth';
 import type { Adapter } from 'next-auth/adapters';
 import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub from 'next-auth/providers/github';
@@ -7,6 +6,7 @@ import type { NextRequest } from 'next/server';
 import { Pool } from 'pg';
 
 import PostgresAdapter from '@/db/adapter-pg';
+import { sendAuditLog } from '@/utils/audit-log';
 import { isJoinedGuild, sendDirectMessage } from '@/utils/discord';
 import { isJoinedOrganization } from '@/utils/github';
 
@@ -18,41 +18,12 @@ const pool = new Pool({
   ssl: true,
 });
 
-const codeBlock = '```';
-
-const sendAuditLog = (method: string, message: object, user: User) => {
-  const formData = new FormData();
-
-  const content = JSON.stringify({ method: method, ...user }, null, 2);
-  const payload = JSON.stringify({
-    content: `${codeBlock}json\n${content}\n${codeBlock}`,
-    username: user.name,
-    avatar_url: user.image,
-    flags: 4096,
-  });
-  formData.append('payload_json', payload);
-
-  const messageBlob = new Blob(
-    [JSON.stringify({ method: method, ...message }, null, 2)],
-    { type: 'application/json' },
-  );
-  formData.append('file[0]', messageBlob, 'message.json');
-
-  // biome-ignore lint:noNonNullAssertion - We know this is defined
-  return fetch(process.env.AUDIT_LOG_WEBHOOK!, {
-    method: 'POST',
-    body: formData,
-  });
-};
-
 const adapter = PostgresAdapter(pool);
 
 const getUser = async ({
   request,
   adapter,
 }: { request: NextRequest | undefined; adapter: Adapter }) => {
-  console.log('getUser');
-  console.log({ request });
   if (!request) {
     return undefined;
   }
@@ -151,8 +122,6 @@ export const config = (request: NextRequest | undefined): NextAuthConfig => {
           };
           if (user.githubUserName) {
             user.isJoinedOrganization = await isJoinedOrganization(
-              // biome-ignore lint:noNonNullAssertion - We know this is defined
-              process.env.GITHUB_ACCESS_TOKEN!,
               user.githubUserName,
             );
           }
@@ -160,6 +129,7 @@ export const config = (request: NextRequest | undefined): NextAuthConfig => {
         },
       }),
     ],
+    theme: { logo: '/icon.png' },
   };
 };
 

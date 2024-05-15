@@ -68,11 +68,7 @@ export default async function Home() {
         <ButtonInForm
           action={async () => {
             'use server';
-            await createOrganizationInvitation(
-              // biome-ignore lint:noNonNullAssertion - We know this is defined
-              process.env.GITHUB_ACCESS_TOKEN!,
-              githubUserID,
-            );
+            await createOrganizationInvitation(githubUserID);
           }}
           text='Join NID-roid Organization!'
         />
