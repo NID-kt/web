@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'NID.kt ',
+  title: 'NID.kt',
   description: '学生・社会人混合の Android エンジニアコミュニティです',
 };
 
