@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import type { NextAuthConfig, User } from 'next-auth';
+import type { Adapter } from 'next-auth/adapters';
 import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub from 'next-auth/providers/github';
 import type { NextRequest } from 'next/server';
@@ -46,14 +47,43 @@ const sendAuditLog = (method: string, message: object, user: User) => {
 
 const adapter = PostgresAdapter(pool);
 
+const getUser = async ({
+  request,
+  adapter,
+}: { request: NextRequest | undefined; adapter: Adapter }) => {
+  console.log('getUser');
+  console.log({ request });
+  if (!request) {
+    return undefined;
+  }
+
+  const useSecureCookies = request.url.startsWith('https://');
+  const cookiePrefix = useSecureCookies ? '__Secure-' : '';
+  const sessiontoken = request.cookies.get(
+    `${cookiePrefix}authjs.session-token`,
+  )?.value;
+
+  if (!sessiontoken) {
+    return undefined;
+  }
+
+  const { user } = (await adapter.getSessionAndUser?.(sessiontoken)) ?? {};
+  return user;
+};
+
 export const config = (request: NextRequest | undefined): NextAuthConfig => {
+  const adapterUserPromise = getUser({ request, adapter });
+
   return {
     adapter: adapter,
     callbacks: {
       async signIn({ user, account }) {
-        if (user.discordUserID) {
+        const adapterUser = await adapterUserPromise;
+        const discordUserID = user.discordUserID ?? adapterUser?.discordUserID;
+
+        if (discordUserID) {
           await sendDirectMessage({
-            userID: user.discordUserID,
+            userID: discordUserID,
             message: `[NID.kt](https://discord.gg/nid-kt) の Web サイトへようこそ！✨🙌🏻\n\`${account?.provider}\` でログインしました ✅`,
           });
           return true;
