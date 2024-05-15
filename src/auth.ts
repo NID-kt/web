@@ -124,8 +124,6 @@ export const config = (request: NextRequest | undefined): NextAuthConfig => {
           };
           if (user.githubUserName) {
             user.isJoinedOrganization = await isJoinedOrganization(
-              // biome-ignore lint:noNonNullAssertion - We know this is defined
-              process.env.GITHUB_ACCESS_TOKEN!,
               user.githubUserName,
             );
           }
