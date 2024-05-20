@@ -75,6 +75,10 @@ export default async function Home() {
       ) : (
         <></>
       )}
+      <SignInButton service='discord' text='Update Discord Profile' />
+      {githubUserID && (
+        <SignInButton service='github' text='Update GitHub Profile' />
+      )}
       <ButtonInForm
         action={async () => {
           'use server';
