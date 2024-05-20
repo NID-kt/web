@@ -1,7 +1,8 @@
+import type { Account, Profile, TokenSet } from '@auth/core/types';
 import NextAuth, { type NextAuthConfig } from 'next-auth';
-import type { Adapter } from 'next-auth/adapters';
+import type { Adapter, AdapterUser } from 'next-auth/adapters';
 import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
-import GitHub from 'next-auth/providers/github';
+import GitHub, { type GitHubProfile } from 'next-auth/providers/github';
 import type { NextRequest } from 'next/server';
 import { Pool } from 'pg';
 
@@ -9,6 +10,8 @@ import PostgresAdapter from '@/db/adapter-pg';
 import { sendAuditLog } from '@/utils/audit-log';
 import { isJoinedGuild, sendDirectMessage } from '@/utils/discord';
 import { isJoinedOrganization } from '@/utils/github';
+
+const undefinedPromise = Promise.resolve(undefined);
 
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,
@@ -42,24 +45,97 @@ const getUser = async ({
   return user;
 };
 
+const updateAdapterUser = async ({
+  adapterUser,
+  account,
+  profile,
+  adapter,
+}: {
+  adapterUser: AdapterUser | undefined;
+  account: Account | null;
+  profile: Profile | undefined;
+  adapter: Adapter;
+}) => {
+  if (adapterUser && adapter.updateUser) {
+    if (account?.provider === 'discord') {
+      const { name, email, image, isJoinedGuild } =
+        (await getDiscordProfile(undefinedPromise)(
+          profile as DiscordProfile,
+          account,
+        )) ?? {};
+
+      await adapter.updateUser({
+        ...adapterUser,
+        name: name,
+        email: email ?? undefined,
+        image: image,
+        isJoinedGuild: isJoinedGuild,
+      });
+    } else if (account?.provider === 'github') {
+      const { githubUserID, githubUserName, isJoinedOrganization } =
+        (await getGitHubProfile?.(
+          profile as unknown as GitHubProfile,
+          account,
+        )) ?? {};
+
+      await adapter.updateUser({
+        ...adapterUser,
+        githubUserID: githubUserID,
+        githubUserName: githubUserName,
+        isJoinedOrganization: isJoinedOrganization,
+      });
+    }
+  }
+};
+
+const getDiscordProfile =
+  (adapterUserPromise: Promise<AdapterUser | undefined>) =>
+  async (profile: DiscordProfile, token: TokenSet) => {
+    const user = {
+      ...(await Discord({}).profile?.(profile, token)),
+      discordUserID: profile.id,
+    };
+    if (token?.access_token && !(await adapterUserPromise)) {
+      user.isJoinedGuild = await isJoinedGuild(token.access_token);
+    }
+    return user;
+  };
+
+const getGitHubProfile = async (profile: GitHubProfile, token: TokenSet) => {
+  const user = {
+    ...(await GitHub({}).profile?.(profile, token)),
+    githubUserID: profile.id,
+    githubUserName: profile.login,
+  };
+  if (user.githubUserName) {
+    user.isJoinedOrganization = await isJoinedOrganization(user.githubUserName);
+  }
+  return user;
+};
+
 export const config = (request: NextRequest | undefined): NextAuthConfig => {
   const adapterUserPromise = getUser({ request, adapter });
 
   return {
     adapter: adapter,
     callbacks: {
-      async signIn({ user, account }) {
+      async signIn({ user, account, profile }) {
         const adapterUser = await adapterUserPromise;
         const discordUserID = user.discordUserID ?? adapterUser?.discordUserID;
 
-        if (discordUserID) {
-          await sendDirectMessage({
+        if (!discordUserID) {
+          return false;
+        }
+
+        await Promise.all([
+          sendDirectMessage({
             userID: discordUserID,
             message: `[NID.kt](https://discord.gg/nid-kt) の Web サイトへようこそ！✨🙌🏻\n\`${account?.provider}\` でログインしました ✅`,
-          });
-          return true;
-        }
-        return false;
+          }),
+          updateAdapterUser({ adapterUser, account, profile, adapter }),
+        ]);
+
+        return true;
       },
     },
     events: {
@@ -76,23 +152,6 @@ export const config = (request: NextRequest | undefined): NextAuthConfig => {
       },
       linkAccount: async (params) => {
         const user = params.user;
-        if ('emailVerified' in user && adapter.updateUser) {
-          const {
-            isJoinedGuild,
-            isJoinedOrganization,
-            githubUserID,
-            githubUserName,
-          } = params.profile;
-
-          await adapter.updateUser({
-            ...user,
-            isJoinedGuild: user.isJoinedGuild ?? isJoinedGuild,
-            isJoinedOrganization:
-              user.isJoinedOrganization ?? isJoinedOrganization,
-            githubUserID: user.githubUserID ?? githubUserID,
-            githubUserName: user.githubUserName ?? githubUserName,
-          });
-        }
         // biome-ignore lint:noNonNullAssertion - To avoid sending sensitive data
         params.account = undefined!;
         await sendAuditLog('linkAccount', params, user);
@@ -102,32 +161,9 @@ export const config = (request: NextRequest | undefined): NextAuthConfig => {
       Discord<DiscordProfile>({
         authorization:
           'https://discord.com/oauth2/authorize?scope=identify+guilds',
-        profile: async (profile, token) => {
-          const user = {
-            ...(await Discord({}).profile?.(profile, token)),
-            discordUserID: profile.id,
-          };
-          if (token?.access_token) {
-            user.isJoinedGuild = await isJoinedGuild(token.access_token);
-          }
-          return user;
-        },
+        profile: getDiscordProfile(adapterUserPromise),
       }),
-      GitHub({
-        profile: async (profile, token) => {
-          const user = {
-            ...(await GitHub({}).profile?.(profile, token)),
-            githubUserID: profile.id,
-            githubUserName: profile.login,
-          };
-          if (user.githubUserName) {
-            user.isJoinedOrganization = await isJoinedOrganization(
-              user.githubUserName,
-            );
-          }
-          return user;
-        },
-      }),
+      GitHub,
     ],
     theme: { logo: '/icon.png' },
   };
