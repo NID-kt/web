@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@auth/core':
-    specifier: ^0.30.0
-    version: 0.30.0
+    specifier: ^0.31.0
+    version: 0.31.0
   '@auth/pg-adapter':
     specifier: ^1.0.0
     version: 1.0.0(pg@8.11.5)
@@ -110,7 +110,6 @@ packages:
       oauth4webapi: 2.10.4
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
-    dev: true
 
   /@auth/pg-adapter@1.0.0(pg@8.11.5):
     resolution: {integrity: sha512-xBq5oH71qlT4gkW+MqYODRCgmhQNSmH3+4uDpnLiqaZhJv55GMRX54ncz1O0pZaXZ/qyYXryZwnnD1fV0id7tw==}
