@@ -1,4 +1,5 @@
 import type { User } from 'next-auth';
+import type { AdapterUser } from 'next-auth/adapters';
 
 declare module 'next-auth' {
   interface User {
@@ -8,4 +9,8 @@ declare module 'next-auth' {
     githubUserName?: string;
     discordUserID?: string;
   }
+}
+
+declare module 'next-auth/adapters' {
+  interface AdapterUser extends User {}
 }
