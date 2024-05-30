@@ -16,7 +16,7 @@ importers:
         version: 1.1.0(pg@8.11.5)
       next:
         specifier: 14.2.3
-        version: 14.2.3(react-dom@18.3.1)(react@18.3.1)
+        version: 14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       pg:
         specifier: ^8.11.5
         version: 8.11.5
@@ -32,7 +32,7 @@ importers:
         version: 1.7.3
       '@types/node':
         specifier: ^20
-        version: 20.12.12
+        version: 20.12.13
       '@types/pg':
         specifier: ^8.11.6
         version: 8.11.6
@@ -50,7 +50,7 @@ importers:
         version: 15.2.5
       next-auth:
         specifier: 5.0.0-beta.18
-        version: 5.0.0-beta.18(next@14.2.3)(react@18.3.1)
+        version: 5.0.0-beta.18(next@14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       postcss:
         specifier: ^8
         version: 8.4.38
@@ -246,8 +246,8 @@ packages:
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
-  '@types/node@20.12.12':
-    resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
+  '@types/node@20.12.13':
+    resolution: {integrity: sha512-gBGeanV41c1L171rR7wjbMiEpEI/l5XFQdLLfhr/REwpgDy/4U8y89+i8kRiLzDyZdOkXh+cRaTetUnCYutoXA==}
 
   '@types/pg@8.11.6':
     resolution: {integrity: sha512-/2WmmBXHLsfRqzfHW7BNZ8SbYzE8OSk7i3WjFYvfgRHj7S1xj+16Je5fUKv3lVdVzk/zn9TXOqf+avFCFIE0yQ==}
@@ -1148,13 +1148,13 @@ snapshots:
 
   '@types/cookie@0.6.0': {}
 
-  '@types/node@20.12.12':
+  '@types/node@20.12.13':
     dependencies:
       undici-types: 5.26.5
 
   '@types/pg@8.11.6':
     dependencies:
-      '@types/node': 20.12.12
+      '@types/node': 20.12.13
       pg-protocol: 1.6.1
       pg-types: 4.0.2
 
@@ -1467,13 +1467,13 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  next-auth@5.0.0-beta.18(next@14.2.3)(react@18.3.1):
+  next-auth@5.0.0-beta.18(next@14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
     dependencies:
       '@auth/core': 0.31.0
-      next: 14.2.3(react-dom@18.3.1)(react@18.3.1)
+      next: 14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
 
-  next@14.2.3(react-dom@18.3.1)(react@18.3.1):
+  next@14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@next/env': 14.2.3
       '@swc/helpers': 0.5.5
@@ -1603,8 +1603,9 @@ snapshots:
   postcss-load-config@4.0.2(postcss@8.4.38):
     dependencies:
       lilconfig: 3.1.1
-      postcss: 8.4.38
       yaml: 2.4.2
+    optionalDependencies:
+      postcss: 8.4.38
 
   postcss-nested@6.0.1(postcss@8.4.38):
     dependencies:
