@@ -1,10 +1,10 @@
 import type { Account, Profile, TokenSet } from '@auth/core/types';
+import { Pool } from '@neondatabase/serverless';
 import NextAuth, { type NextAuthConfig } from 'next-auth';
 import type { Adapter, AdapterUser } from 'next-auth/adapters';
 import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub, { type GitHubProfile } from 'next-auth/providers/github';
 import type { NextRequest } from 'next/server';
-import { Pool } from 'pg';
 
 import PostgresAdapter from '@/db/adapter-pg';
 import { sendAuditLog } from '@/utils/audit-log';
@@ -12,16 +12,6 @@ import { isJoinedGuild, sendDirectMessage } from '@/utils/discord';
 import { isJoinedOrganization } from '@/utils/github';
 
 const undefinedPromise = Promise.resolve(undefined);
-
-const pool = new Pool({
-  host: process.env.POSTGRES_HOST,
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DATABASE,
-  ssl: true,
-});
-
-const adapter = PostgresAdapter(pool);
 
 const getUser = async ({
   request,
@@ -114,6 +104,10 @@ const getGitHubProfile = async (profile: GitHubProfile, token: TokenSet) => {
 };
 
 export const config = (request: NextRequest | undefined): NextAuthConfig => {
+  const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL,
+  });
+  const adapter = PostgresAdapter(pool);
   const adapterUserPromise = getUser({ request, adapter });
 
   return {

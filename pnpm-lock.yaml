@@ -14,12 +14,12 @@ importers:
       '@auth/pg-adapter':
         specifier: ^1.2.0
         version: 1.2.0(pg@8.12.0)
+      '@neondatabase/serverless':
+        specifier: ^0.9.3
+        version: 0.9.3
       next:
         specifier: 14.2.3
         version: 14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      pg:
-        specifier: ^8.12.0
-        version: 8.12.0
       react:
         specifier: ^18
         version: 18.3.1
@@ -33,9 +33,6 @@ importers:
       '@types/node':
         specifier: ^20
         version: 20.14.2
-      '@types/pg':
-        specifier: ^8.11.6
-        version: 8.11.6
       '@types/react':
         specifier: ^18
         version: 18.3.3
@@ -160,6 +157,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@neondatabase/serverless@0.9.3':
+    resolution: {integrity: sha512-6ZBK8asl2Z3+ADEaELvbaVVGVlmY1oAzkxxZfpmXPKFuJhbDN+5fU3zYBamsahS/Ch1zE+CVWB3R+8QEI2LMSw==}
 
   '@next/env@14.2.3':
     resolution: {integrity: sha512-W7fd7IbkfmeeY2gXrzJYDx8D2lWKbVoTIj1o1ScPHNzvp30s1AuoEFSdr39bC5sjxJaxTtq3OTCZboNp0lNWHA==}
@@ -1084,6 +1084,10 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  '@neondatabase/serverless@0.9.3':
+    dependencies:
+      '@types/pg': 8.11.6
 
   '@next/env@14.2.3': {}
 
