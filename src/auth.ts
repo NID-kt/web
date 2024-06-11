@@ -13,16 +13,6 @@ import { isJoinedOrganization } from '@/utils/github';
 
 const undefinedPromise = Promise.resolve(undefined);
 
-const pool = new Pool({
-  host: process.env.POSTGRES_HOST,
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DATABASE,
-  ssl: true,
-});
-
-const adapter = PostgresAdapter(pool);
-
 const getUser = async ({
   request,
   adapter,
@@ -114,6 +104,10 @@ const getGitHubProfile = async (profile: GitHubProfile, token: TokenSet) => {
 };
 
 export const config = (request: NextRequest | undefined): NextAuthConfig => {
+  const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL,
+  });
+  const adapter = PostgresAdapter(pool);
   const adapterUserPromise = getUser({ request, adapter });
 
   return {
