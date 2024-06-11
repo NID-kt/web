@@ -1,10 +1,10 @@
 import type { Account, Profile, TokenSet } from '@auth/core/types';
+import { Pool } from '@neondatabase/serverless';
 import NextAuth, { type NextAuthConfig } from 'next-auth';
 import type { Adapter, AdapterUser } from 'next-auth/adapters';
 import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub, { type GitHubProfile } from 'next-auth/providers/github';
 import type { NextRequest } from 'next/server';
-import { Pool } from 'pg';
 
 import PostgresAdapter from '@/db/adapter-pg';
 import { sendAuditLog } from '@/utils/audit-log';

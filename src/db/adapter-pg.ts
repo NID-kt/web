@@ -1,6 +1,6 @@
 import { default as OriginalPostgresAdapter } from '@auth/pg-adapter';
+import type { Pool } from '@neondatabase/serverless';
 import type { Adapter, AdapterAccount } from 'next-auth/adapters';
-import type { Pool } from 'pg';
 
 // biome-ignore lint:noExplicitAny - This is a type from the database
 export function mapExpiresAt(account: any): AdapterAccount {
