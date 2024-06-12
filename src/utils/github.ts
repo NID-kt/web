@@ -8,7 +8,7 @@ const createGitHubApiHeaders = () => {
 
 export const isJoinedOrganization = async (username: string) => {
   const response = await fetch(
-    `https://api.github.com/orgs/NID-roid/members/${username}`,
+    `https://api.github.com/orgs/NID-kt/members/${username}`,
     {
       headers: createGitHubApiHeaders(),
     },
@@ -18,7 +18,7 @@ export const isJoinedOrganization = async (username: string) => {
 
 export const createOrganizationInvitation = async (userID: number) => {
   const response = await fetch(
-    'https://api.github.com/orgs/NID-roid/invitations',
+    'https://api.github.com/orgs/NID-kt/invitations',
     {
       method: 'POST',
       headers: createGitHubApiHeaders(),
