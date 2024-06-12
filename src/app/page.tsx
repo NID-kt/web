@@ -70,7 +70,7 @@ export default async function Home() {
             'use server';
             await createOrganizationInvitation(githubUserID);
           }}
-          text='Join NID-roid Organization!'
+          text='Join NID-kt Organization!'
         />
       ) : (
         <></>
