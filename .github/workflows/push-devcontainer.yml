@@ -1,0 +1,31 @@
+name: Push DevContainer
+
+on:
+  push:
+    #  branches:
+    #    - main
+
+jobs:
+  push-devcontainer:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push DevContainer
+        uses: devcontainers/ci@v0.3
+        with:
+          configFile: .devcontainer/self-build/devcontainer.json
+          imageName: ghcr.io/nid-kt/web-devcontainer
+          cacheFrom: ghcr.io/nid-kt/web-devcontainer
+          push: always
