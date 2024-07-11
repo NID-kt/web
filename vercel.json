@@ -17,5 +17,19 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "discord.nidkt.org" }],
+      "destination": "https://discord.gg/nid-kt",
+      "permanent": true
+    },
+    {
+      "source": "/invite",
+      "has": [{ "type": "host", "value": "discord.nidkt.org" }],
+      "destination": "https://discord.gg/nid-kt",
+      "permanent": true
+    }
   ]
 }
