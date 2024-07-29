@@ -103,7 +103,7 @@ const getGitHubProfile = async (profile: GitHubProfile, token: TokenSet) => {
   return user;
 };
 
-export const config = (request: NextRequest | undefined) => {
+export const config = async (request: NextRequest | undefined) => {
   const pool = new Pool({
     connectionString: process.env.POSTGRES_URL,
   });
