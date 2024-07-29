@@ -23,7 +23,7 @@
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "husky": "9.1.2",
+    "husky": "9.1.3",
     "lint-staged": "15.2.7",
     "next-auth": "5.0.0-beta.20",
     "postcss": "^8",
