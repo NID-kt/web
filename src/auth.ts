@@ -103,7 +103,7 @@ const getGitHubProfile = async (profile: GitHubProfile, token: TokenSet) => {
   return user;
 };
 
-export const config = (request: NextRequest | undefined): NextAuthConfig => {
+export const config = (request: NextRequest | undefined) => {
   const pool = new Pool({
     connectionString: process.env.POSTGRES_URL,
   });
@@ -160,7 +160,7 @@ export const config = (request: NextRequest | undefined): NextAuthConfig => {
       GitHub,
     ],
     theme: { logo: '/icon.png' },
-  };
+  } satisfies NextAuthConfig;
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);
