@@ -11,8 +11,6 @@ import { sendAuditLog } from '@/utils/audit-log';
 import { isJoinedGuild, sendDirectMessage } from '@/utils/discord';
 import { isJoinedOrganization } from '@/utils/github';
 
-const undefinedPromise = Promise.resolve(undefined);
-
 const getUser = async ({
   request,
   adapter,
@@ -49,10 +47,7 @@ const updateAdapterUser = async ({
   if (adapterUser && adapter.updateUser) {
     if (account?.provider === 'discord') {
       const { name, email, image, isJoinedGuild } =
-        (await getDiscordProfile(undefinedPromise)(
-          profile as DiscordProfile,
-          account,
-        )) ?? {};
+        (await getDiscordProfile()(profile as DiscordProfile, account)) ?? {};
 
       await adapter.updateUser({
         ...adapterUser,
@@ -79,13 +74,13 @@ const updateAdapterUser = async ({
 };
 
 const getDiscordProfile =
-  (adapterUserPromise: Promise<AdapterUser | undefined>) =>
+  (adapterUser?: AdapterUser) =>
   async (profile: DiscordProfile, token: TokenSet) => {
     const user = {
       ...(await Discord({}).profile?.(profile, token)),
       discordUserID: profile.id,
     };
-    if (token?.access_token && !(await adapterUserPromise)) {
+    if (token?.access_token && !adapterUser) {
       user.isJoinedGuild = await isJoinedGuild(token.access_token);
     }
     return user;
@@ -108,13 +103,12 @@ export const config = async (request: NextRequest | undefined) => {
     connectionString: process.env.POSTGRES_URL,
   });
   const adapter = PostgresAdapter(pool);
-  const adapterUserPromise = getUser({ request, adapter });
+  const adapterUser = await getUser({ request, adapter });
 
   return {
     adapter: adapter,
     callbacks: {
       async signIn({ user, account, profile }) {
-        const adapterUser = await adapterUserPromise;
         const discordUserID = user.discordUserID ?? adapterUser?.discordUserID;
 
         if (!discordUserID) {
@@ -155,7 +149,7 @@ export const config = async (request: NextRequest | undefined) => {
       Discord<DiscordProfile>({
         authorization:
           'https://discord.com/oauth2/authorize?scope=identify+guilds',
-        profile: getDiscordProfile(adapterUserPromise),
+        profile: getDiscordProfile(adapterUser),
       }),
       GitHub,
     ],
