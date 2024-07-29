@@ -12,8 +12,8 @@ importers:
         specifier: ^0.34.2
         version: 0.34.2
       '@auth/pg-adapter':
-        specifier: ^1.4.1
-        version: 1.4.1(pg@8.12.0)
+        specifier: ^1.4.2
+        version: 1.4.2(pg@8.12.0)
       '@neondatabase/serverless':
         specifier: ^0.9.4
         version: 0.9.4
@@ -64,20 +64,6 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  '@auth/core@0.34.1':
-    resolution: {integrity: sha512-tuYU2VIbI8rFbkSwP710LmybB2FXJsPN7j3sjRVfN9SXVQBK2ej6LdewQaofpBGp4Mk+cC2UeiGNH0or4tgaeA==}
-    peerDependencies:
-      '@simplewebauthn/browser': ^9.0.1
-      '@simplewebauthn/server': ^9.0.2
-      nodemailer: ^6.8.0
-    peerDependenciesMeta:
-      '@simplewebauthn/browser':
-        optional: true
-      '@simplewebauthn/server':
-        optional: true
-      nodemailer:
-        optional: true
-
   '@auth/core@0.34.2':
     resolution: {integrity: sha512-KywHKRgLiF3l7PLyL73fjLSIBe1YNcA6sMeew4yMP6cfCWGXZrkkXd32AjRi1hlJ9nvovUBGZHvbn+LijO6ZeQ==}
     peerDependencies:
@@ -92,8 +78,8 @@ packages:
       nodemailer:
         optional: true
 
-  '@auth/pg-adapter@1.4.1':
-    resolution: {integrity: sha512-pkZr5NFeju7ONHm/l0VnibjqGFcshhk34HyuglPZVWJba6dXyK7WGkKFV4vAbxKKkfkn3paAfTrjjkWgRNL87Q==}
+  '@auth/pg-adapter@1.4.2':
+    resolution: {integrity: sha512-L7IAHv6yZN695OFKro0cbny7Nq5XwAF7R84YglQUcNkVFn3IffMWFVFGT6T+WM9Shdc3e1whceqcBJ1+A8WW4g==}
     peerDependencies:
       pg: ^8
 
@@ -1019,16 +1005,6 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@auth/core@0.34.1':
-    dependencies:
-      '@panva/hkdf': 1.1.1
-      '@types/cookie': 0.6.0
-      cookie: 0.6.0
-      jose: 5.2.4
-      oauth4webapi: 2.10.4
-      preact: 10.11.3
-      preact-render-to-string: 5.2.3(preact@10.11.3)
-
   '@auth/core@0.34.2':
     dependencies:
       '@panva/hkdf': 1.1.1
@@ -1039,9 +1015,9 @@ snapshots:
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
 
-  '@auth/pg-adapter@1.4.1(pg@8.12.0)':
+  '@auth/pg-adapter@1.4.2(pg@8.12.0)':
     dependencies:
-      '@auth/core': 0.34.1
+      '@auth/core': 0.34.2
       pg: 8.12.0
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
