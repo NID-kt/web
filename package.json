@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
-    "@auth/pg-adapter": "^1.4.1",
+    "@auth/pg-adapter": "^1.4.2",
     "@neondatabase/serverless": "^0.9.4",
     "next": "14.2.5",
     "react": "^18",
