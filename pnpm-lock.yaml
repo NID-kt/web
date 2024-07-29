@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@auth/core':
-        specifier: ^0.34.1
-        version: 0.34.1
+        specifier: ^0.34.2
+        version: 0.34.2
       '@auth/pg-adapter':
         specifier: ^1.4.1
         version: 1.4.1(pg@8.12.0)
