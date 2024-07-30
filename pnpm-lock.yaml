@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@auth/core':
-        specifier: ^0.34.1
-        version: 0.34.1
+        specifier: ^0.34.2
+        version: 0.34.2
       '@auth/pg-adapter':
-        specifier: ^1.4.1
-        version: 1.4.1(pg@8.12.0)
+        specifier: ^1.4.2
+        version: 1.4.2(pg@8.12.0)
       '@neondatabase/serverless':
         specifier: ^0.9.4
         version: 0.9.4
@@ -31,8 +31,8 @@ importers:
         specifier: 1.8.3
         version: 1.8.3
       '@types/node':
-        specifier: ^20
-        version: 20.14.12
+        specifier: ^22
+        version: 22.0.0
       '@types/react':
         specifier: ^18
         version: 18.3.3
@@ -40,14 +40,14 @@ importers:
         specifier: ^18
         version: 18.3.0
       husky:
-        specifier: 9.1.2
-        version: 9.1.2
+        specifier: 9.1.4
+        version: 9.1.4
       lint-staged:
         specifier: 15.2.7
         version: 15.2.7
       next-auth:
-        specifier: 5.0.0-beta.19
-        version: 5.0.0-beta.19(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        specifier: 5.0.0-beta.20
+        version: 5.0.0-beta.20(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       postcss:
         specifier: ^8
         version: 8.4.40
@@ -64,8 +64,8 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  '@auth/core@0.32.0':
-    resolution: {integrity: sha512-3+ssTScBd+1fd0/fscAyQN1tSygXzuhysuVVzB942ggU4mdfiTbv36P0ccVnExKWYJKvu3E2r3/zxXCCAmTOrg==}
+  '@auth/core@0.34.2':
+    resolution: {integrity: sha512-KywHKRgLiF3l7PLyL73fjLSIBe1YNcA6sMeew4yMP6cfCWGXZrkkXd32AjRi1hlJ9nvovUBGZHvbn+LijO6ZeQ==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -78,22 +78,8 @@ packages:
       nodemailer:
         optional: true
 
-  '@auth/core@0.34.1':
-    resolution: {integrity: sha512-tuYU2VIbI8rFbkSwP710LmybB2FXJsPN7j3sjRVfN9SXVQBK2ej6LdewQaofpBGp4Mk+cC2UeiGNH0or4tgaeA==}
-    peerDependencies:
-      '@simplewebauthn/browser': ^9.0.1
-      '@simplewebauthn/server': ^9.0.2
-      nodemailer: ^6.8.0
-    peerDependenciesMeta:
-      '@simplewebauthn/browser':
-        optional: true
-      '@simplewebauthn/server':
-        optional: true
-      nodemailer:
-        optional: true
-
-  '@auth/pg-adapter@1.4.1':
-    resolution: {integrity: sha512-pkZr5NFeju7ONHm/l0VnibjqGFcshhk34HyuglPZVWJba6dXyK7WGkKFV4vAbxKKkfkn3paAfTrjjkWgRNL87Q==}
+  '@auth/pg-adapter@1.4.2':
+    resolution: {integrity: sha512-L7IAHv6yZN695OFKro0cbny7Nq5XwAF7R84YglQUcNkVFn3IffMWFVFGT6T+WM9Shdc3e1whceqcBJ1+A8WW4g==}
     peerDependencies:
       pg: ^8
 
@@ -260,8 +246,8 @@ packages:
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
-  '@types/node@20.14.12':
-    resolution: {integrity: sha512-r7wNXakLeSsGT0H1AU863vS2wa5wBOK4bWMjZz2wj+8nBx+m5PeIn0k8AloSLpRuiwdRQZwarZqHE4FNArPuJQ==}
+  '@types/node@22.0.0':
+    resolution: {integrity: sha512-VT7KSYudcPOzP5Q0wfbowyNLaVR8QWUdw+088uFWwfvpY6uCWaXpqV6ieLAu9WBcnTa7H4Z5RLK8I5t2FuOcqw==}
 
   '@types/pg@8.11.6':
     resolution: {integrity: sha512-/2WmmBXHLsfRqzfHW7BNZ8SbYzE8OSk7i3WjFYvfgRHj7S1xj+16Je5fUKv3lVdVzk/zn9TXOqf+avFCFIE0yQ==}
@@ -472,8 +458,8 @@ packages:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
 
-  husky@9.1.2:
-    resolution: {integrity: sha512-1/aDMXZdhr1VdJJTLt6e7BipM0Jd9qkpubPiIplon1WmCeOy3nnzsCMeBqS9AsL5ioonl8F8y/F2CLOmk19/Pw==}
+  husky@9.1.4:
+    resolution: {integrity: sha512-bho94YyReb4JV7LYWRWxZ/xr6TtOTt8cMfmQ39MQYJ7f/YE268s3GdghGwi+y4zAeqewE5zYLvuhV0M0ijsDEA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -599,12 +585,12 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  next-auth@5.0.0-beta.19:
-    resolution: {integrity: sha512-YHu1igcAxZPh8ZB7GIM93dqgY6gcAzq66FOhQFheAdOx1raxNcApt05nNyNCSB6NegSiyJ4XOPsaNow4pfDmsg==}
+  next-auth@5.0.0-beta.20:
+    resolution: {integrity: sha512-+48SjV9k9AtUU3JbEIa4PXNjKIewfFjVGL7Xs2RKkuQ5QqegDNIQiIG8sLk6/qo7RTScQYIGKgeQ5IuQRtrTQg==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
-      next: ^14 || ^15.0.0-0
+      next: ^14.0.0-0 || ^15.0.0-0
       nodemailer: ^6.6.5
       react: ^18.2.0 || ^19.0.0-0
     peerDependenciesMeta:
@@ -983,8 +969,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  undici-types@5.26.5:
-    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+  undici-types@6.11.1:
+    resolution: {integrity: sha512-mIDEX2ek50x0OlRgxryxsenE5XaQD4on5U2inY7RApK3SOJpofyw7uW2AyfMKkhAxXIceo2DeWGVGwyvng1GNQ==}
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -1019,7 +1005,7 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@auth/core@0.32.0':
+  '@auth/core@0.34.2':
     dependencies:
       '@panva/hkdf': 1.1.1
       '@types/cookie': 0.6.0
@@ -1029,19 +1015,9 @@ snapshots:
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
 
-  '@auth/core@0.34.1':
+  '@auth/pg-adapter@1.4.2(pg@8.12.0)':
     dependencies:
-      '@panva/hkdf': 1.1.1
-      '@types/cookie': 0.6.0
-      cookie: 0.6.0
-      jose: 5.2.4
-      oauth4webapi: 2.10.4
-      preact: 10.11.3
-      preact-render-to-string: 5.2.3(preact@10.11.3)
-
-  '@auth/pg-adapter@1.4.1(pg@8.12.0)':
-    dependencies:
-      '@auth/core': 0.34.1
+      '@auth/core': 0.34.2
       pg: 8.12.0
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
@@ -1168,13 +1144,13 @@ snapshots:
 
   '@types/cookie@0.6.0': {}
 
-  '@types/node@20.14.12':
+  '@types/node@22.0.0':
     dependencies:
-      undici-types: 5.26.5
+      undici-types: 6.11.1
 
   '@types/pg@8.11.6':
     dependencies:
-      '@types/node': 20.14.12
+      '@types/node': 22.0.0
       pg-protocol: 1.6.1
       pg-types: 4.0.2
 
@@ -1363,7 +1339,7 @@ snapshots:
 
   human-signals@5.0.0: {}
 
-  husky@9.1.2: {}
+  husky@9.1.4: {}
 
   is-binary-path@2.1.0:
     dependencies:
@@ -1478,9 +1454,9 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  next-auth@5.0.0-beta.19(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+  next-auth@5.0.0-beta.20(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@auth/core': 0.32.0
+      '@auth/core': 0.34.2
       next: 14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
 
@@ -1834,7 +1810,7 @@ snapshots:
 
   typescript@5.5.4: {}
 
-  undici-types@5.26.5: {}
+  undici-types@6.11.1: {}
 
   util-deprecate@1.0.2: {}
 

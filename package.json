@@ -11,8 +11,8 @@
     "format": "biome check --write ."
   },
   "dependencies": {
-    "@auth/core": "^0.34.1",
-    "@auth/pg-adapter": "^1.4.1",
+    "@auth/core": "^0.34.2",
+    "@auth/pg-adapter": "^1.4.2",
     "@neondatabase/serverless": "^0.9.4",
     "next": "14.2.5",
     "react": "^18",
@@ -20,12 +20,12 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "husky": "9.1.2",
+    "husky": "9.1.4",
     "lint-staged": "15.2.7",
-    "next-auth": "5.0.0-beta.19",
+    "next-auth": "5.0.0-beta.20",
     "postcss": "^8",
     "tailwindcss": "^3.4.7",
     "typescript": "^5"
