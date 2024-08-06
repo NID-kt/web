@@ -22,7 +22,7 @@ const SignInButton = ({
   service,
   text,
 }: {
-  service: 'discord' | 'github';
+  service: 'discord' | 'github' | 'google';
   text: string;
 }) => (
   <ButtonInForm
@@ -54,12 +54,18 @@ export default async function Home() {
     );
   }
 
-  const { isJoinedGuild, githubUserID, isJoinedOrganization, name } =
-    session.user || {};
+  const {
+    isJoinedGuild,
+    githubUserID,
+    googleUserID,
+    isJoinedOrganization,
+    name,
+  } = session.user || {};
 
   return (
     <main className='flex min-h-screen flex-col items-center justify-center p-24'>
       <p className='text-2xl font-semibold'>Welcome {name}</p>
+
       {!isJoinedGuild ? (
         <DiscordLink />
       ) : !githubUserID ? (
@@ -75,9 +81,17 @@ export default async function Home() {
       ) : (
         <></>
       )}
+
+      {isJoinedGuild && !googleUserID && (
+        <SignInButton service='google' text='Sign in with Google' />
+      )}
+
       <SignInButton service='discord' text='Update Discord Profile' />
       {githubUserID && (
         <SignInButton service='github' text='Update GitHub Profile' />
+      )}
+      {googleUserID && (
+        <SignInButton service='google' text='Update Google Profile' />
       )}
       <ButtonInForm
         action={async () => {

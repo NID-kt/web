@@ -8,6 +8,7 @@ declare module 'next-auth' {
     githubUserID?: number;
     githubUserName?: string;
     discordUserID?: string;
+    googleUserID?: string;
   }
 }
 
