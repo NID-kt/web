@@ -134,5 +134,92 @@ export default function PostgresAdapter(client: Pool): Adapter {
       ]);
       return query2.rows[0];
     },
+    async linkAccount(account) {
+      const exists = await client.query(
+        `SELECT EXISTS (
+        SELECT 1
+        FROM accounts
+        WHERE "userId" = $1 AND provider = $2 AND "providerAccountId" = $3
+      );`,
+        [account.userId, account.provider, account.providerAccountId],
+      );
+
+      let sql: string;
+      if (exists.rows[0].exists) {
+        sql = `
+          update accounts set
+            type = $3,
+            access_token = $5,
+            expires_at = $6,
+            refresh_token = $7,
+            id_token = $8,
+            scope = $9,
+            session_state = $10,
+            token_type = $11
+          where "userId" = $1 AND provider = $2 AND "providerAccountId" = $4
+          returning
+            id,
+            "userId", 
+            provider, 
+            type, 
+            "providerAccountId", 
+            access_token,
+            expires_at,
+            refresh_token,
+            id_token,
+            scope,
+            session_state,
+            token_type
+        `;
+      } else {
+        sql = `
+          insert into accounts 
+          (
+            "userId", 
+            provider, 
+            type, 
+            "providerAccountId", 
+            access_token,
+            expires_at,
+            refresh_token,
+            id_token,
+            scope,
+            session_state,
+            token_type
+          )
+          values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+          returning
+            id,
+            "userId", 
+            provider, 
+            type, 
+            "providerAccountId", 
+            access_token,
+            expires_at,
+            refresh_token,
+            id_token,
+            scope,
+            session_state,
+            token_type
+          `;
+      }
+
+      const params = [
+        account.userId,
+        account.provider,
+        account.type,
+        account.providerAccountId,
+        account.access_token,
+        account.expires_at,
+        account.refresh_token,
+        account.id_token,
+        account.scope,
+        account.session_state,
+        account.token_type,
+      ];
+
+      const result = await client.query(sql, params);
+      return mapExpiresAt(result.rows[0]);
+    },
   };
 }

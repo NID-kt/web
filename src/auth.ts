@@ -2,7 +2,11 @@ import Google from '@auth/core/providers/google';
 import type { Account, Profile, TokenSet } from '@auth/core/types';
 import { Pool } from '@neondatabase/serverless';
 import NextAuth, { type NextAuthConfig } from 'next-auth';
-import type { Adapter, AdapterUser } from 'next-auth/adapters';
+import type {
+  Adapter,
+  AdapterAccountType,
+  AdapterUser,
+} from 'next-auth/adapters';
 import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub, { type GitHubProfile } from 'next-auth/providers/github';
 import type { NextRequest } from 'next/server';
@@ -71,6 +75,11 @@ const updateAdapterUser = async ({
         isJoinedOrganization: isJoinedOrganization,
       });
     } else if (account?.provider === 'google') {
+      adapter.linkAccount?.({
+        ...account,
+        type: account.type as AdapterAccountType,
+        userId: adapterUser.id,
+      });
       await adapter.updateUser({
         ...adapterUser,
         googleUserID: account.providerAccountId,
