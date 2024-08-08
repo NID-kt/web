@@ -5,6 +5,7 @@ declare module 'next-auth' {
   interface User {
     isJoinedGuild?: boolean;
     isJoinedOrganization?: boolean;
+    isLinkedToCalendar?: boolean;
     githubUserID?: number;
     githubUserName?: string;
     discordUserID?: string;

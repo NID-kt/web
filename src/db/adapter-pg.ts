@@ -22,6 +22,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
         image,
         isJoinedGuild,
         isJoinedOrganization,
+        isLinkedToCalendar,
         githubUserID,
         githubUserName,
         discordUserID,
@@ -36,12 +37,13 @@ export default function PostgresAdapter(client: Pool): Adapter {
             image,
             "isJoinedGuild",
             "isJoinedOrganization",
+            "isLinkedToCalendar",
             "githubUserID",
             "githubUserName",
             "discordUserID",
             "googleUserID"
           ) 
-          VALUES ($1, $2, $3, $4 , $5, $6, $7, $8, $9, $10) 
+          VALUES ($1, $2, $3, $4 , $5, $6, $7, $8, $9, $10, $11) 
           RETURNING
             id,
             name,
@@ -50,6 +52,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
             image,
             "isJoinedGuild",
             "isJoinedOrganization",
+            "isLinkedToCalendar",
             "githubUserID",
             "githubUserName",
             "discordUserID",
@@ -62,6 +65,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
         image,
         isJoinedGuild,
         isJoinedOrganization,
+        isLinkedToCalendar,
         githubUserID,
         githubUserName,
         discordUserID,
@@ -87,6 +91,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
         image,
         isJoinedGuild,
         isJoinedOrganization,
+        isLinkedToCalendar,
         githubUserID,
         githubUserName,
         discordUserID,
@@ -101,10 +106,11 @@ export default function PostgresAdapter(client: Pool): Adapter {
             image = $5,
             "isJoinedGuild" = $6,
             "isJoinedOrganization" = $7,
-            "githubUserID" = $8,
-            "githubUserName" = $9,
-            "discordUserID" = $10,
-            "googleUserID" = $11
+            "isLinkedToCalendar" = $8,
+            "githubUserID" = $9,
+            "githubUserName" = $10,
+            "discordUserID" = $11,
+            "googleUserID" = $12
           where id = $1
           RETURNING
             name,
@@ -114,6 +120,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
             image,
             "isJoinedGuild",
             "isJoinedOrganization",
+            "isLinkedToCalendar",
             "githubUserID",
             "githubUserName",
             "discordUserID",
@@ -127,6 +134,7 @@ export default function PostgresAdapter(client: Pool): Adapter {
         image,
         isJoinedGuild,
         isJoinedOrganization,
+        isLinkedToCalendar,
         githubUserID,
         githubUserName,
         discordUserID,
