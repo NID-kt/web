@@ -1,5 +1,5 @@
 import { auth, signIn, signOut } from '@/auth';
-import { linkCalendar, unlinkCalendar } from '@/utils/calender';
+import { linkCalendar, unlinkCalendar } from '@/utils/calendar';
 import { createOrganizationInvitation } from '@/utils/github';
 
 const ButtonInForm = ({
@@ -60,7 +60,7 @@ export default async function Home() {
     githubUserID,
     googleUserID,
     isJoinedOrganization,
-    isLinkedToCalendar: isLinkedToCalender,
+    isLinkedToCalendar,
     name,
   } = session.user || {};
 
@@ -95,7 +95,7 @@ export default async function Home() {
       {googleUserID && (
         <>
           <SignInButton service='google' text='Update Google Profile' />
-          {!isLinkedToCalender ? (
+          {!isLinkedToCalendar ? (
             <ButtonInForm
               action={async () => {
                 'use server';
