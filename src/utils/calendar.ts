@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import { Pool } from '@neondatabase/serverless';
+import { redirect } from 'next/navigation';
 
 export async function linkCalendar() {
   const session = await auth();
@@ -21,6 +22,7 @@ export async function linkCalendar() {
     `,
     [user.id],
   );
+  redirect('/');
 }
 
 export async function unlinkCalendar() {
@@ -43,4 +45,5 @@ export async function unlinkCalendar() {
     `,
     [user.id],
   );
+  redirect('/');
 }
