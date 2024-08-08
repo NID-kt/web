@@ -12,7 +12,7 @@ export async function linkCalendar() {
     connectionString: process.env.POSTGRES_URL,
   });
 
-  pool.query(
+  await pool.query(
     `
     UPDATE users SET
       "isLinkedToCalendar" = true
@@ -34,7 +34,7 @@ export async function unlinkCalendar() {
     connectionString: process.env.POSTGRES_URL,
   });
 
-  pool.query(
+  await pool.query(
     `
     UPDATE users SET
       "isLinkedToCalendar" = false
