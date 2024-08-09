@@ -66,9 +66,8 @@ export function convertRFC5545RecurrenceRule(
     str += `;BYYEARDAY=${by_year_day.join(',')}`;
   }
 
-  console.assert(!rule.end, 'end should be undefined.');
   if (rule.end) {
-    str += `;UNTIL=${rule.end.toISOString().replace(/[-:]/g, '')}`;
+    str += `;UNTIL=${rule.end.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`;
   }
   if (rule.count) {
     str += `;COUNT=${rule.count}`;
