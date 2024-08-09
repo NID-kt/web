@@ -14,6 +14,7 @@
     "@auth/core": "^0.34.2",
     "@auth/pg-adapter": "^1.4.2",
     "@neondatabase/serverless": "^0.9.4",
+    "@vercel/postgres": "^0.9.0",
     "next": "14.2.5",
     "next-auth": "5.0.0-beta.20",
     "react": "^18",

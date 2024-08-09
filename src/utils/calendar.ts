@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { Pool } from '@neondatabase/serverless';
+import { sql } from '@vercel/postgres';
 import { redirect } from 'next/navigation';
 
 export async function linkCalendar() {
@@ -9,19 +9,12 @@ export async function linkCalendar() {
     return;
   }
 
-  const pool = new Pool({
-    connectionString: process.env.POSTGRES_URL,
-  });
-
-  await pool.query(
-    `
+  await sql`
     UPDATE users SET
       "isLinkedToCalendar" = true
     WHERE
-      id = $1
-    `,
-    [user.id],
-  );
+      id = ${user.id};
+  `;
   redirect('/');
 }
 
@@ -32,18 +25,11 @@ export async function unlinkCalendar() {
     return;
   }
 
-  const pool = new Pool({
-    connectionString: process.env.POSTGRES_URL,
-  });
-
-  await pool.query(
-    `
+  await sql`
     UPDATE users SET
       "isLinkedToCalendar" = false
     WHERE
-      id = $1
-    `,
-    [user.id],
-  );
+      id = ${user.id};
+  `;
   redirect('/');
 }
