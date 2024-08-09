@@ -19,9 +19,7 @@ async function updateUserToken(user: {
   `;
 }
 
-async function retrieveUserToken(
-  id: string,
-): Promise<{
+async function retrieveUserToken(id: string): Promise<{
   id: string;
   refresh_token: string;
   access_token: string;
