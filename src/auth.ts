@@ -1,7 +1,12 @@
+import Google from '@auth/core/providers/google';
 import type { Account, Profile, TokenSet } from '@auth/core/types';
 import { Pool } from '@neondatabase/serverless';
 import NextAuth, { type NextAuthConfig } from 'next-auth';
-import type { Adapter, AdapterUser } from 'next-auth/adapters';
+import type {
+  Adapter,
+  AdapterAccountType,
+  AdapterUser,
+} from 'next-auth/adapters';
 import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub, { type GitHubProfile } from 'next-auth/providers/github';
 import type { NextRequest } from 'next/server';
@@ -68,6 +73,16 @@ const updateAdapterUser = async ({
         githubUserID: githubUserID,
         githubUserName: githubUserName,
         isJoinedOrganization: isJoinedOrganization,
+      });
+    } else if (account?.provider === 'google') {
+      adapter.linkAccount?.({
+        ...account,
+        type: account.type as AdapterAccountType,
+        userId: adapterUser.id,
+      });
+      await adapter.updateUser({
+        ...adapterUser,
+        googleUserID: account.providerAccountId,
       });
     }
   }
@@ -152,6 +167,18 @@ export const config = async (request: NextRequest | undefined) => {
         profile: getDiscordProfile(adapterUser),
       }),
       GitHub,
+      Google({
+        authorization: {
+          params: {
+            // https://github.com/nextauthjs/next-auth/blob/748c9ecb8ce10bef2b628520451f676db0499f9d/docs/pages/guides/configuring-oauth-providers.mdx
+            scope: 'openid https://www.googleapis.com/auth/calendar',
+            // https://next-auth.js.org/providers/google
+            prompt: 'consent',
+            access_type: 'offline',
+            response_type: 'code',
+          },
+        },
+      }),
     ],
     theme: { logo: '/icon.png' },
   } satisfies NextAuthConfig;
