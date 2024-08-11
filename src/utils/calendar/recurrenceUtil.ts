@@ -16,18 +16,17 @@ export type APIRecurrenceRuleMonth =
 
 export interface APIRecurrenceRule {
   start: Date;
-  end?: Date | undefined | null;
+  end?: Date | null;
   frequency: APIRecurrenceRuleFrequency;
   interval: number;
-  by_weekday?: APIRecurrenceRuleWeekDay[] | undefined | null;
+  by_weekday?: APIRecurrenceRuleWeekDay[] | null;
   by_n_weekday?:
     | { n: 1 | 2 | 3 | 4 | 5; day: APIRecurrenceRuleWeekDay }[]
-    | undefined
     | null;
-  by_month?: APIRecurrenceRuleMonth[] | undefined | null;
-  by_month_day?: number[] | undefined | null;
-  by_year_day?: number[] | undefined | null;
-  count?: number | undefined | null;
+  by_month?: APIRecurrenceRuleMonth[] | null;
+  by_month_day?: number[] | null;
+  by_year_day?: number[] | null;
+  count?: number | null;
 }
 
 export function getWeekdayString(weekday: APIRecurrenceRuleWeekDay): string {
