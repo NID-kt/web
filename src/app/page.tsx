@@ -1,23 +1,7 @@
 import { auth, signIn, signOut } from '@/auth';
-import { linkCalendar, unlinkCalendar } from '@/utils/calendar';
+import ButtonInForm from '@/components/ButtonInForm';
+import LinkCalendarButton from '@/components/LinkCalendarButton';
 import { createOrganizationInvitation } from '@/utils/github';
-
-const ButtonInForm = ({
-  action,
-  text,
-}: {
-  action: () => void;
-  text: string;
-}) => (
-  <form action={action}>
-    <button
-      type='submit'
-      className='px-8 py-4 mt-8 text-lg font-semibold border border-gray-300 rounded-lg transition-colors hover:border-gray-400'
-    >
-      {text}
-    </button>
-  </form>
-);
 
 const SignInButton = ({
   service,
@@ -96,19 +80,10 @@ export default async function Home() {
         <>
           <SignInButton service='google' text='Update Google Profile' />
           {!isLinkedToCalendar ? (
-            <ButtonInForm
-              action={async () => {
-                'use server';
-                await linkCalendar();
-              }}
-              text='Link to Google Calendar'
-            />
+            <LinkCalendarButton action='link' text='Link to Google Calendar' />
           ) : (
-            <ButtonInForm
-              action={async () => {
-                'use server';
-                await unlinkCalendar();
-              }}
+            <LinkCalendarButton
+              action='unlink'
               text='Unlink from Google Calendar'
             />
           )}

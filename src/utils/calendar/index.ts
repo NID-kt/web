@@ -1,8 +1,10 @@
+'use server';
+
 import { auth } from '@/auth';
 import { REST } from '@discordjs/rest';
 import { sql } from '@vercel/postgres';
 import { type APIGuildScheduledEvent, Routes } from 'discord-api-types/v10';
-import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { createCalEvent, removeCalEvent } from './calendarService';
 import { transformAPIGuildScheduledEventToScheduledEvent } from './mapping';
 
@@ -95,15 +97,21 @@ async function updateIsLinkedToCalendar(id: string, value: boolean) {
   `;
 }
 
-export async function linkCalendar() {
+export async function linkCalendar(
+  state: { error?: string },
+  formData: FormData,
+) {
   const session = await auth();
   const user = session?.user;
-  if (!user || !user.id || user.isLinkedToCalendar) {
-    return;
+  if (!user || !user.id) {
+    return { error: 'サインインが必要です' };
+  }
+  if (user.isLinkedToCalendar) {
+    return { error: 'すでにリンクされています' };
   }
   const userAndToken = await retrieveUserToken(user.id);
   if (!userAndToken) {
-    return;
+    return { error: 'Googleの認証が必要です' };
   }
 
   await updateIsLinkedToCalendar(user.id, true);
@@ -120,18 +128,25 @@ export async function linkCalendar() {
       transformAPIGuildScheduledEventToScheduledEvent(event),
     );
   }
-  redirect('/');
+  revalidatePath('/');
+  return { error: undefined };
 }
 
-export async function unlinkCalendar() {
+export async function unlinkCalendar(
+  state: { error?: string },
+  formData: FormData,
+) {
   const session = await auth();
   const user = session?.user;
-  if (!user || !user.id || !user.isLinkedToCalendar) {
-    return;
+  if (!user || !user.id) {
+    return { error: 'サインインが必要です' };
+  }
+  if (!user.isLinkedToCalendar) {
+    return { error: 'すでにリンク解除されています' };
   }
   const userAndToken = await retrieveUserToken(user.id);
   if (!userAndToken) {
-    return;
+    return { error: 'Googleの認証が必要です' };
   }
 
   await updateIsLinkedToCalendar(user.id as string, false);
@@ -145,5 +160,6 @@ export async function unlinkCalendar() {
   for (const event of events) {
     removeCalEvent(userAndToken.access_token, event);
   }
-  redirect('/');
+  revalidatePath('/');
+  return { error: undefined };
 }
