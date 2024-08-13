@@ -1,12 +1,17 @@
+import Google from '@auth/core/providers/google';
 import type { Account, Profile, TokenSet } from '@auth/core/types';
 import { Pool } from '@neondatabase/serverless';
 import NextAuth, { type NextAuthConfig } from 'next-auth';
-import type { Adapter, AdapterUser } from 'next-auth/adapters';
+import type {
+  Adapter,
+  AdapterAccountType,
+  AdapterUser,
+} from 'next-auth/adapters';
 import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub, { type GitHubProfile } from 'next-auth/providers/github';
 import type { NextRequest } from 'next/server';
 
-import PostgresAdapter from '@/db/adapter-pg';
+import PostgresAdapter, { updateAccount } from '@/db/adapter-pg';
 import { sendAuditLog } from '@/utils/audit-log';
 import { isJoinedGuild, sendDirectMessage } from '@/utils/discord';
 import { isJoinedOrganization } from '@/utils/github';
@@ -38,11 +43,13 @@ const updateAdapterUser = async ({
   account,
   profile,
   adapter,
+  pool,
 }: {
   adapterUser: AdapterUser | undefined;
   account: Account | null;
   profile: Profile | undefined;
   adapter: Adapter;
+  pool: Pool;
 }) => {
   if (adapterUser && adapter.updateUser) {
     if (account?.provider === 'discord') {
@@ -68,6 +75,13 @@ const updateAdapterUser = async ({
         githubUserID: githubUserID,
         githubUserName: githubUserName,
         isJoinedOrganization: isJoinedOrganization,
+      });
+    } else if (account?.provider === 'google') {
+      updateAccount(pool, account);
+
+      await adapter.updateUser({
+        ...adapterUser,
+        googleUserID: account.providerAccountId,
       });
     }
   }
@@ -120,7 +134,7 @@ export const config = async (request: NextRequest | undefined) => {
             userID: discordUserID,
             message: `[NID.kt](https://discord.gg/nid-kt) の Web サイトへようこそ！✨🙌🏻\n\`${account?.provider}\` でログインしました ✅`,
           }),
-          updateAdapterUser({ adapterUser, account, profile, adapter }),
+          updateAdapterUser({ adapterUser, account, profile, adapter, pool }),
         ]);
 
         return true;
@@ -152,6 +166,18 @@ export const config = async (request: NextRequest | undefined) => {
         profile: getDiscordProfile(adapterUser),
       }),
       GitHub,
+      Google({
+        authorization: {
+          params: {
+            // https://github.com/nextauthjs/next-auth/blob/748c9ecb8ce10bef2b628520451f676db0499f9d/docs/pages/guides/configuring-oauth-providers.mdx
+            scope: 'openid https://www.googleapis.com/auth/calendar',
+            // https://authjs.dev/getting-started/providers/google
+            prompt: 'consent',
+            access_type: 'offline',
+            response_type: 'code',
+          },
+        },
+      }),
     ],
     theme: { logo: '/icon.png' },
   } satisfies NextAuthConfig;
