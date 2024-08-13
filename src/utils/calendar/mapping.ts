@@ -16,9 +16,9 @@ export function transformAPIGuildScheduledEventToScheduledEvent(
       : null,
     creatorid: event.creator_id ?? null,
     location: event.entity_metadata?.location ?? null,
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    // biome-ignore lint/suspicious/noExplicitAny: discord-api-typesに含まれないフィールドを取り出すため. https://discord.com/developers/docs/resources/guild-scheduled-event#guild-scheduled-event
     recurrence: (event as any).recurrence_rule
-      ? // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      ? // biome-ignore lint/suspicious/noExplicitAny: discord-api-typesに含まれないフィールドを取り出すため. https://discord.com/developers/docs/resources/guild-scheduled-event#guild-scheduled-event
         convertRFC5545RecurrenceRule((event as any).recurrence_rule)
       : null,
     url: `https://discord.com/events/${event.guild_id}/${event.id}`,
