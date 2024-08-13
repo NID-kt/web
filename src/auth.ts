@@ -172,7 +172,7 @@ export const config = async (request: NextRequest | undefined) => {
           params: {
             // https://github.com/nextauthjs/next-auth/blob/748c9ecb8ce10bef2b628520451f676db0499f9d/docs/pages/guides/configuring-oauth-providers.mdx
             scope: 'openid https://www.googleapis.com/auth/calendar',
-            // https://next-auth.js.org/providers/google
+            // https://authjs.dev/getting-started/providers/google
             prompt: 'consent',
             access_type: 'offline',
             response_type: 'code',
