@@ -11,7 +11,7 @@ import Discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import GitHub, { type GitHubProfile } from 'next-auth/providers/github';
 import type { NextRequest } from 'next/server';
 
-import PostgresAdapter from '@/db/adapter-pg';
+import PostgresAdapter, { updateAccount } from '@/db/adapter-pg';
 import { sendAuditLog } from '@/utils/audit-log';
 import { isJoinedGuild, sendDirectMessage } from '@/utils/discord';
 import { isJoinedOrganization } from '@/utils/github';
@@ -43,11 +43,13 @@ const updateAdapterUser = async ({
   account,
   profile,
   adapter,
+  pool,
 }: {
   adapterUser: AdapterUser | undefined;
   account: Account | null;
   profile: Profile | undefined;
   adapter: Adapter;
+  pool: Pool;
 }) => {
   if (adapterUser && adapter.updateUser) {
     if (account?.provider === 'discord') {
@@ -75,11 +77,8 @@ const updateAdapterUser = async ({
         isJoinedOrganization: isJoinedOrganization,
       });
     } else if (account?.provider === 'google') {
-      adapter.linkAccount?.({
-        ...account,
-        type: account.type as AdapterAccountType,
-        userId: adapterUser.id,
-      });
+      updateAccount(pool, account);
+
       await adapter.updateUser({
         ...adapterUser,
         googleUserID: account.providerAccountId,
@@ -135,7 +134,7 @@ export const config = async (request: NextRequest | undefined) => {
             userID: discordUserID,
             message: `[NID.kt](https://discord.gg/nid-kt) の Web サイトへようこそ！✨🙌🏻\n\`${account?.provider}\` でログインしました ✅`,
           }),
-          updateAdapterUser({ adapterUser, account, profile, adapter }),
+          updateAdapterUser({ adapterUser, account, profile, adapter, pool }),
         ]);
 
         return true;
