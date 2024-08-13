@@ -1,10 +1,9 @@
 // Google Calendarの操作用
 
-import type { ScheduledEvent } from './types';
+import type { GoogleCalendarEvent, ScheduledEvent } from './types';
 
 function createSchemaEvent(event: ScheduledEvent) {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const body: any = {
+  const body: GoogleCalendarEvent = {
     location: event.location,
     id: event.id,
     summary: event.name,
@@ -46,7 +45,7 @@ export async function createCalEvent(
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
-      body: body,
+      body: JSON.stringify(body),
     },
   );
 
@@ -59,7 +58,7 @@ export async function createCalEvent(
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-        body: body,
+        body: JSON.stringify(body),
       },
     );
   }
@@ -77,7 +76,7 @@ export async function updateCalEvent(
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
-      body: body,
+      body: JSON.stringify(body),
     },
   );
 }
