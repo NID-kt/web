@@ -42,6 +42,14 @@ async function retrieveUserToken(id: string): Promise<{
   if (userToken.expires_at < Math.floor(Date.now() / 1000) + 60) {
     const json = await refreshAccessToken(userToken.refresh_token);
     if (!json) {
+      // リフレッシュトークンが無効な場合、削除とgoogleUserIdのnull設定
+      await sql`
+        DELETE FROM accounts WHERE "userId" = ${id} AND provider = 'google';
+      `;
+      await sql`
+        UPDATE users SET "googleUserId" = NULL WHERE id = ${id};
+      `;
+
       return null;
     }
 
