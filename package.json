@@ -27,7 +27,7 @@
     "husky": "9.1.4",
     "lint-staged": "15.2.8",
     "postcss": "^8",
-    "tailwindcss": "^3.4.9",
+    "tailwindcss": "^3.4.10",
     "typescript": "^5"
   },
   "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74",
